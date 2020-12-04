@@ -1,0 +1,22 @@
+@import '~antd/dist/antd.css';
+
+.header {
+  background-color: #ffffff;
+  width: 100%;
+}
+
+.header_hidden {
+  display: none;
+}
+
+.header__menu {
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.header__logo {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  margin: 0;
+}
