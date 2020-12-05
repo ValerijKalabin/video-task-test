@@ -1,7 +1,8 @@
 import './App.css';
 import React from 'react';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import Login from '../Login/Login';
-import Header from '../Header/Header';
+import Private from '../Private/Private';
 import user from '../../data/user.json';
 
 function App() {
@@ -11,6 +12,8 @@ function App() {
     if(user.username === username && user.password === password) {
       localStorage.setItem(username, username);
       setIsGuest(false);
+    } else {
+      alert('Неправильный логин или пароль');
     }
   }
 
@@ -21,8 +24,14 @@ function App() {
 
   return (
     <div className={`app ${isGuest && 'app__guest'}`}>
-      <Header onClickExit={hadleClickExit} />
-      <Login onSubmitFormLogin={handleSubmitFormLogin} />
+      <Switch>
+        <Route exact path="/">
+          {isGuest ? <Redirect to="/login" /> : <Private onClickExit={hadleClickExit} />}
+        </Route>
+        <Route path="/login">
+          {!isGuest ? <Redirect to="/" /> : <Login onSubmitFormLogin={handleSubmitFormLogin} />}
+        </Route>
+      </Switch>
     </div>
   );
 }

@@ -1,10 +1,10 @@
 import './Login.css';
 import logo from '../../images/logo.svg';
 import { Form, Input, Button } from 'antd';
-import user from '../../data/user.json';
+//import user from '../../data/user.json';
 
 function Login({ onSubmitFormLogin }) {
-  const isGuest = !localStorage.getItem(user.username);
+  //const isGuest = !localStorage.getItem(user.username);
 
   function onFinish(values) {
     onSubmitFormLogin(values);
@@ -14,7 +14,7 @@ function Login({ onSubmitFormLogin }) {
     <Form
       layout="vertical"
       name="basic"
-      className={`login__form ${!isGuest && 'login__form_hidden'}`}
+      className="login__form"
       onFinish={onFinish}
     >
       <img className="login__logo" src={logo} alt="Логотип" />

@@ -9,12 +9,8 @@
   border: 1px solid rgba(39, 39, 39, 0.1);
   box-sizing: border-box;
   border-radius: 5px;
-  padding: 40px 0 20px;
+  padding: 40px 0 40px;
   margin: 0;
-}
-
-.login__form_hidden {
-  display: none;
 }
 
 .login__logo {

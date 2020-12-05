@@ -1,0 +1,5 @@
+@import '~antd/dist/antd.css';
+
+.seek_hidden {
+  display: none;
+}
