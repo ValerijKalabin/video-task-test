@@ -2,7 +2,9 @@ import './App.css';
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import Login from '../Login/Login';
-import Private from '../Private/Private';
+import Header from '../Header/Header';
+import Seek from '../Seek/Seek';
+import Favourit from '../Favourit/Favourit';
 import user from '../../data/user.json';
 
 function App() {
@@ -26,10 +28,31 @@ function App() {
     <div className={`app ${isGuest && 'app__guest'}`}>
       <Switch>
         <Route exact path="/">
-          {isGuest ? <Redirect to="/login" /> : <Private onClickExit={hadleClickExit} />}
+          {
+            !isGuest ?
+            <Redirect to="/search" /> :
+            <Login onSubmitFormLogin={handleSubmitFormLogin} />
+          }
         </Route>
-        <Route path="/login">
-          {!isGuest ? <Redirect to="/" /> : <Login onSubmitFormLogin={handleSubmitFormLogin} />}
+        <Route path="/search">
+          {
+            isGuest ?
+            <Redirect to="/" /> :
+            <>
+              <Header onClickExit={hadleClickExit} />
+              <Seek />
+            </>
+          }
+        </Route>
+        <Route path="/favourites">
+          {
+            isGuest ?
+            <Redirect to="/" /> :
+            <>
+              <Header onClickExit={hadleClickExit} />
+              <Favourit />
+            </>
+          }
         </Route>
       </Switch>
     </div>

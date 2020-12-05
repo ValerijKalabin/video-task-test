@@ -1,23 +1,26 @@
 @import '~antd/dist/antd.css';
 
-.seek {
+.favourit {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
   min-height: calc(100vh - 48px);
 }
 
-.seek__title {
+.favourit__container {
+  width: 1040px;
+}
+
+.favourit__title {
   font-style: normal;
   font-weight: normal;
-  font-size: 36px;
-  line-height: 52px;
+  font-size: 28px;
+  line-height: 40px;
   padding: 0;
   margin: 0 0 40px;
 }
 
-.seek__input {
-  width: 686px;
+.favourit__list {
+  background-color: #ffffff;
 }

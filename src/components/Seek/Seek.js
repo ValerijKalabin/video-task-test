@@ -1,24 +1,26 @@
 import './Seek.css';
 import {  Input  } from 'antd';
-import user from '../../data/user.json';
 const { Search } = Input;
 
 function Seek() {
-  const isGuest = !localStorage.getItem(user.username);
 
   function handleSearch(value) {
     console.log(value);
   }
 
   return (
-    <Search
-      className={isGuest && 'seek_hidden'}
-      placeholder="Что хотите посмотреть?"
-      allowClear
-      enterButton="Найти"
-      size="large"
-      onSearch={handleSearch}
-    />
+    <main className="seek">
+      <h1 className="seek__title">Поиск видео</h1>
+      <div className="seek__input">
+        <Search
+          placeholder="Что хотите посмотреть?"
+          allowClear
+          enterButton="Найти"
+          size="large"
+          onSearch={handleSearch}
+        />
+      </div>
+    </main>
   );
 }
 

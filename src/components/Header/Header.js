@@ -1,34 +1,31 @@
 import './Header.css';
 import React from 'react';
+import { Link } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 import { Menu } from 'antd';
 
 function Header({ onClickExit }) {
-  const [current, setCurrent] = React.useState('search')
+  const [clickedItem, setClickedItem] = React.useState('search');
 
-  function handleClick(event) {
-    if(event.key === 'exit') {
-      onClickExit();
-    } else {
-      setCurrent(event.key);
-    }
-  };
+  function hahdleClickItem(event) {
+    setClickedItem(event.key);
+  }
 
   return (
     <header className="header">
       <div className="header__menu">
-        <img className="header__logo" src={logo} alt="Логотип" />
         <Menu
           mode="horizontal"
-          onClick={handleClick}
-          selectedKeys={[current]}
+          onClick={hahdleClickItem}
+          selectedKeys={[clickedItem]}
         >
-          <Menu.Item key="search">Поиск</Menu.Item>
-          <Menu.Item key="favourites">Избранное</Menu.Item>
+          <img className="header__logo" src={logo} alt="Логотип" />
+          <Menu.Item key="search"><Link to="/search">Поиск</Link></Menu.Item>
+          <Menu.Item key="favourites"><Link to="/favourites">Избранное</Link></Menu.Item>
         </Menu>
         <Menu
           mode="horizontal"
-          onClick={handleClick}
+          onClick={onClickExit}
         >
           <Menu.Item key="exit">Выйти</Menu.Item>
         </Menu>
