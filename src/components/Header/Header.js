@@ -1,11 +1,12 @@
 import './Header.css';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useRouteMatch  } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 import { Menu } from 'antd';
 
 function Header({ onClickExit }) {
-  const [clickedItem, setClickedItem] = React.useState('search');
+  const { path } = useRouteMatch();
+  const [clickedItem, setClickedItem] = React.useState(path.slice(1));
 
   function hahdleClickItem(event) {
     setClickedItem(event.key);

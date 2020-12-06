@@ -5,8 +5,16 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  max-width: 1040px;
   min-height: calc(100vh - 48px);
+  padding: 0;
+  margin: 0 auto;
+}
+
+.seek_video {
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 40px 0 0;
 }
 
 .seek__title {
@@ -18,6 +26,91 @@
   margin: 0 0 40px;
 }
 
+.seek__title_video {
+  font-size: 28x;
+  line-height: 40px;
+  margin: 0 0 12px;
+}
+
 .seek__input {
   width: 686px;
+}
+
+.seek__input_video {
+  width: 100%;
+  margin: 0 0 40px;
+}
+
+.seek__info {
+  display: none;
+}
+
+.seek__info_video {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  margin: 0 0 20px;
+}
+
+.seek__query {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  padding: 0;
+  margin: 0;
+}
+
+.seek__buttons {
+  display: flex;
+  flex-direction: row;
+  padding: 0;
+  margin: 0;
+}
+
+.seek__button {
+  display: block;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  outline: none;
+  margin: 0;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.3;
+  cursor: pointer;
+}
+
+.seek__button-list {
+  background-image: url(../../images/button-list.svg);
+  margin: 0 20px 0 0;
+}
+
+.seek__button-grid {
+  background-image: url(../../images/button-grid.svg);
+}
+
+.seek__button_active {
+  opacity: 1;
+}
+
+.seek__clips {
+  width: 100%;
+  padding: 0;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px
+}
+
+.seek__clips_layout_list {
+  width: 687px;
+  margin: 0;
+  grid-template-columns: 1fr;
+  gap: 32px
 }
