@@ -5,26 +5,15 @@ import Video from '../Video/Video';
 import Heart from '../Heart/Heart';
 const { Search } = Input;
 
-function Seek() {
-  const [query, setQuery] = React.useState('');
-  const [clips, setСlips] = React.useState([]);
-  const [layout, setLayout] = React.useState('grid')
+function Seek({ query, clips, onSearchVideo, onClickHeart }) {
+  const [layout, setLayout] = React.useState('grid');
 
   function handleSearch(value) {
-    fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${value}&type=video&maxResults=12&key=AIzaSyB_CL-jK3MdyAk4jltnf4zbvkmPTeteGM0`, { method: 'GET'})
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-        return Promise.reject(res);
-      })
-      .then((res) => {
-        setQuery(value);
-        setСlips(res.items);
-      })
-      .catch(() => {
-        alert('Что-то пошло не так. Повторите запрос.')
-      });
+    onSearchVideo({
+      query: value,
+      name: '',
+      count: 12,
+    });
   }
 
   function handleClick(event) {
@@ -39,7 +28,7 @@ function Seek() {
           placeholder="Что хотите посмотреть?"
           enterButton="Найти"
           size="large"
-          suffix={<Heart clipsLength={clips.length} />}
+          suffix={<Heart clipsLength={clips.length} onClickHeart={onClickHeart} />}
           onSearch={handleSearch}
         />
       </div>

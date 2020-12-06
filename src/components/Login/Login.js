@@ -11,7 +11,7 @@ function Login({ onSubmitFormLogin }) {
   return (
     <Form
       layout="vertical"
-      name="basic"
+      name="login"
       className="login__form"
       onFinish={onFinish}
     >

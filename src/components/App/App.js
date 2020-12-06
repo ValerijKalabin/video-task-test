@@ -5,10 +5,15 @@ import Login from '../Login/Login';
 import Header from '../Header/Header';
 import Seek from '../Seek/Seek';
 import Favourit from '../Favourit/Favourit';
+import Add from '../Add/Add';
 import user from '../../data/user.json';
 
 function App() {
   const [isGuest, setIsGuest] = React.useState(!localStorage.getItem(user.username));
+  const [visibleModalAdd, setVisibleModalAdd] = React.useState(false)
+  const [query, setQuery] = React.useState('');
+  const [queries, setQueries] = React.useState([]);
+  const [clips, setСlips] = React.useState([]);
 
   function handleSubmitFormLogin({ username, password }) {
     if(user.username === username && user.password === password) {
@@ -22,6 +27,43 @@ function App() {
   function hadleClickExit() {
     localStorage.removeItem(user.username);
     setIsGuest(true);
+  }
+
+  function handleSearchVideo(data) {
+    fetch(`https://www.googleapis.com/youtube/v3/search`
+      + `?part=snippet`
+      + `&type=video`
+      + `&q=${data.query}`
+      + `&maxResults=${data.count}`
+      + `&key=AIzaSyB_CL-jK3MdyAk4jltnf4zbvkmPTeteGM0`,
+      { method: 'GET'}
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(res);
+      })
+      .then((res) => {
+        setQuery(data.query);
+        setСlips(res.items);
+      })
+      .catch(() => {
+        alert('Что-то пошло не так. Повторите запрос.')
+      });
+  }
+
+  function handleClickHeart() {
+    setVisibleModalAdd(true);
+  }
+
+  function handleCloseModalAdd() {
+    setVisibleModalAdd(false);
+  }
+
+  function handleAddQuery(query) {
+    setVisibleModalAdd(false);
+    setQueries([...queries, query]);
   }
 
   return (
@@ -40,7 +82,17 @@ function App() {
             <Redirect to="/" /> :
             <>
               <Header onClickExit={hadleClickExit} />
-              <Seek />
+              <Seek
+                query={query}
+                clips={clips}
+                onSearchVideo={handleSearchVideo}
+                onClickHeart={handleClickHeart}    />
+              <Add
+                query={query}
+                visibleModalAdd={visibleModalAdd}
+                onCloseModalAdd={handleCloseModalAdd}
+                addQuery={handleAddQuery}
+              />
             </>
           }
         </Route>
@@ -50,7 +102,7 @@ function App() {
             <Redirect to="/" /> :
             <>
               <Header onClickExit={hadleClickExit} />
-              <Favourit />
+              <Favourit queries={queries} />
             </>
           }
         </Route>
