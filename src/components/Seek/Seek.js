@@ -2,6 +2,7 @@ import './Seek.css';
 import React from 'react';
 import {  Input  } from 'antd';
 import Video from '../Video/Video';
+import Heart from '../Heart/Heart';
 const { Search } = Input;
 
 function Seek() {
@@ -36,9 +37,9 @@ function Seek() {
       <div className={`seek__input ${clips.length && 'seek__input_video'}`}>
         <Search
           placeholder="Что хотите посмотреть?"
-          allowClear
           enterButton="Найти"
           size="large"
+          suffix={<Heart clipsLength={clips.length} />}
           onSearch={handleSearch}
         />
       </div>

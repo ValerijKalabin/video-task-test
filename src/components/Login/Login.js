@@ -1,10 +1,8 @@
 import './Login.css';
 import logo from '../../images/logo.svg';
 import { Form, Input, Button } from 'antd';
-//import user from '../../data/user.json';
 
 function Login({ onSubmitFormLogin }) {
-  //const isGuest = !localStorage.getItem(user.username);
 
   function onFinish(values) {
     onSubmitFormLogin(values);
