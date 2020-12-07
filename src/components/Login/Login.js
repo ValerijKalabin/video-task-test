@@ -24,7 +24,13 @@ function Login({ onSubmitFormLogin }) {
         <Input.Password className="login__input"/>
       </Form.Item>
       <Form.Item>
-        <Button className="login__button" htmlType="submit" type="primary">Войти</Button>
+        <Button
+          className="login__button"
+          htmlType="submit"
+          type="primary"
+        >
+          Войти
+        </Button>
       </Form.Item>
     </Form>
   );

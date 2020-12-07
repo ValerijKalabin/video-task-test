@@ -25,8 +25,12 @@ function Header({ onClickExit }) {
           selectedKeys={[clickedItem]}
         >
           <img className="header__logo" src={logo} alt="Логотип" />
-          <Menu.Item key="search"><Link to="/search">Поиск</Link></Menu.Item>
-          <Menu.Item key="favourites"><Link to="/favourites">Избранное</Link></Menu.Item>
+          <Menu.Item key="search">
+            <Link to="/search">Поиск</Link>
+          </Menu.Item>
+          <Menu.Item key="favourites">
+            <Link to="/favourites">Избранное</Link>
+          </Menu.Item>
         </Menu>
         <Menu
           mode="horizontal"
