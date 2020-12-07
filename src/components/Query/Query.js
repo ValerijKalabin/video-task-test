@@ -1,11 +1,18 @@
 import './Query.css';
 import {  Button } from 'antd';
 
-function Query({ item }) {
+function Query({ item, index, onClickQueryEdit }) {
+  function handleClickEdit() {
+    onClickQueryEdit(index);
+  }
+
   return (
     <div className="query">
       <p className="query__text">{item.name}</p>
-      <Button type="link">Редактировать</Button>
+      <div>
+        <Button type="link" >Выполнить</Button>
+        <Button type="link" onClick={handleClickEdit}>Редактировать</Button>
+      </div>
     </div>
   );
 }

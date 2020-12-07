@@ -1,9 +1,9 @@
-import './Add.css';
+import './Popup.css';
 import React from 'react';
 import QueryContext from '../../contexts/QueryContext';
 import { Modal, Form, Input, Slider, InputNumber, Button, Row, Col  } from 'antd';
 
-function Add({ visibleModalAdd, title, isDisabledQueryInput, onCloseModalAdd, addQuery }) {
+function Popup({ isVisible, title, index, isDisabledQueryInput, onClosePopup, onEditQueryList }) {
   const [form] = Form.useForm();
   const [countValue, setCountValue] = React.useState(0);
   const { query, name, count } = React.useContext(QueryContext);
@@ -13,34 +13,45 @@ function Add({ visibleModalAdd, title, isDisabledQueryInput, onCloseModalAdd, ad
   }
 
   function handleFinish({ query, name }) {
-    addQuery({
+    onEditQueryList({
       query: query,
       name: name,
       count: countValue
-    });
+    }, index);
   }
 
   React.useEffect(() => {
-    if(visibleModalAdd) {
-      form.setFieldsValue({
-        query: query,
-        name: name,
-      });
-      setCountValue(count)
+    if(isVisible) {
+      if(index < 0) {
+        form.setFieldsValue({
+          query: query,
+          name: name,
+        });
+        setCountValue(count);
+      } else {
+        const queriesString = localStorage.getItem('queries');
+        const queriesList = JSON.parse(queriesString);
+        const { query, name, count } = queriesList[index];
+        form.setFieldsValue({
+          query: query,
+          name: name,
+        });
+        setCountValue(count);
+      }
     }
-  }, [visibleModalAdd, form, query, name, count]);
+  }, [isVisible, form, query, name, count, index]);
 
   return (
     <Modal
-      visible={visibleModalAdd}
+      visible={isVisible}
       title={title}
-      onCancel={onCloseModalAdd}
+      onCancel={onClosePopup}
       footer={[]}
     >
       <Form
         form={form}
         layout="vertical"
-        name="add"
+        name="popup"
         onFinish={handleFinish}
       >
         <Form.Item label="Запрос" name="query">
@@ -87,7 +98,7 @@ function Add({ visibleModalAdd, title, isDisabledQueryInput, onCloseModalAdd, ad
               <Button
                 htmlType="button"
                 style={{ margin: '0 5px', width: '226px' }}
-                onClick={onCloseModalAdd}
+                onClick={onClosePopup}
               >
                 Не сохранять
               </Button>
@@ -110,4 +121,4 @@ function Add({ visibleModalAdd, title, isDisabledQueryInput, onCloseModalAdd, ad
   );
 }
 
-export default Add;
+export default Popup;

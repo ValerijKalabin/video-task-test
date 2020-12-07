@@ -6,16 +6,16 @@ import Login from '../Login/Login';
 import Header from '../Header/Header';
 import Seek from '../Seek/Seek';
 import Favourit from '../Favourit/Favourit';
-import Add from '../Add/Add';
+import Popup from '../Popup/Popup';
 import user from '../../data/user.json';
 
 function App() {
   const [isGuest, setIsGuest] = React.useState(!localStorage.getItem(user.username));
-  const [visibleModalAdd, setVisibleModalAdd] = React.useState(false);
-  const [modalTitle, setModalTitle] = React.useState('');
+  const [isVisiblePopup, setVisiblePopup] = React.useState(false);
+  const [popupTitle, setPopupTitle] = React.useState('');
   const [isDisabledQueryInput, setIsDisabledQueryInput] = React.useState(false);
+  const [queryIndex, setQueryIndex] = React.useState(0);
   const [query, setQuery] = React.useState({});
-  const [queries, setQueries] = React.useState([]);
   const [clips, setСlips] = React.useState([]);
 
   function handleSubmitFormLogin({ username, password }) {
@@ -57,19 +57,37 @@ function App() {
   }
 
   function handleClickHeart() {
-    setVisibleModalAdd(true);
-    setModalTitle('Сохранить запрос');
+    setQueryIndex(-1);
+    setPopupTitle('Сохранить запрос');
     setIsDisabledQueryInput(true);
+    setVisiblePopup(true);
   }
 
-  function handleCloseModalAdd() {
-    setVisibleModalAdd(false);
+  function hadleEditQuery(index) {
+    setQueryIndex(index);
+    setPopupTitle('Изменить запрос');
+    setIsDisabledQueryInput(false);
+    setVisiblePopup(true);
   }
 
-  function handleAddQuery(query) {
-    setVisibleModalAdd(false);
-    setQueries([...queries, query]);
-    localStorage.setItem('queries', JSON.stringify(queries));
+  function handleClosePopup() {
+    setVisiblePopup(false);
+  }
+
+  function handleEditQueryList(query, index) {
+    const queriesString = localStorage.getItem('queries');
+    if(!queriesString) {
+      localStorage.setItem('queries', JSON.stringify([query]));
+    } else {
+      const queriesList = JSON.parse(queriesString);
+      if(index < 0) {
+        queriesList[queriesList.length] = query;
+      } else {
+        queriesList[index] = query;
+      }
+      localStorage.setItem('queries', JSON.stringify(queriesList));
+    }
+    setVisiblePopup(false);
   }
 
   return (
@@ -103,17 +121,18 @@ function App() {
             <Redirect to="/" /> :
             <>
               <Header onClickExit={hadleClickExit} />
-              <Favourit queries={queries} />
+              <Favourit onClickQueryEdit={hadleEditQuery} />
             </>
           }
         </Route>
       </Switch>
-      <Add
-        visibleModalAdd={visibleModalAdd}
-        title={modalTitle}
+      <Popup
+        isVisible={isVisiblePopup}
+        title={popupTitle}
+        index={queryIndex}
         isDisabledQueryInput={isDisabledQueryInput}
-        onCloseModalAdd={handleCloseModalAdd}
-        addQuery={handleAddQuery}
+        onClosePopup={handleClosePopup}
+        onEditQueryList={handleEditQueryList}
       />
       </QueryContext.Provider>
     </div>
