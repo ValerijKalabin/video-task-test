@@ -1,6 +1,5 @@
 import './App.css';
 import React from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
 import QueryContext from '../../contexts/QueryContext';
 import Login from '../Login/Login';
 import Header from '../Header/Header';
@@ -11,6 +10,7 @@ import user from '../../data/user.json';
 
 function App() {
   const [isGuest, setIsGuest] = React.useState(!localStorage.getItem(user.username));
+  const [currentPage, setCurrentPage] = React.useState('search');
   const [isVisiblePopup, setVisiblePopup] = React.useState(false);
   const [popupTitle, setPopupTitle] = React.useState('');
   const [isDisabledQueryInput, setIsDisabledQueryInput] = React.useState(false);
@@ -25,6 +25,10 @@ function App() {
     } else {
       alert('Неправильный логин или пароль');
     }
+  }
+
+  function handleClickMenuItem(event) {
+    setCurrentPage(event.key);
   }
 
   function hadleClickExit() {
@@ -70,10 +74,6 @@ function App() {
     setVisiblePopup(true);
   }
 
-  function handleClosePopup() {
-    setVisiblePopup(false);
-  }
-
   function handleEditQueryList(query, index) {
     const queriesString = localStorage.getItem('queries');
     if(!queriesString) {
@@ -90,53 +90,47 @@ function App() {
     setVisiblePopup(false);
   }
 
+  function handleClosePopup() {
+    setVisiblePopup(false);
+  }
+
+  function handleRunQuery(data) {
+    setCurrentPage('search');
+    handleSearchVideo(data);
+  }
+
   return (
     <div className={`app ${isGuest && 'app__guest'}`}>
       <QueryContext.Provider value={query}>
-      <Switch>
-        <Route exact path="/">
-          {
-            !isGuest ?
-            <Redirect to="/search" /> :
-            <Login onSubmitFormLogin={handleSubmitFormLogin} />
-          }
-        </Route>
-        <Route path="/search">
-          {
-            isGuest ?
-            <Redirect to="/" /> :
-            <>
-              <Header onClickExit={hadleClickExit} />
-              <Seek
-                clips={clips}
-                onSearchVideo={handleSearchVideo}
-                onClickHeart={handleClickHeart}
-              />
-            </>
-          }
-        </Route>
-        <Route path="/favourites">
-          {
-            isGuest ?
-            <Redirect to="/" /> :
-            <>
-              <Header onClickExit={hadleClickExit} />
-              <Favourit
-                onClickQueryRun={handleSearchVideo}
-                onClickQueryEdit={hadleEditQuery}
-              />
-            </>
-          }
-        </Route>
-      </Switch>
-      <Popup
-        isVisible={isVisiblePopup}
-        title={popupTitle}
-        index={queryIndex}
-        isDisabledQueryInput={isDisabledQueryInput}
-        onClosePopup={handleClosePopup}
-        onEditQueryList={handleEditQueryList}
-      />
+        <Login
+          isVisible={isGuest}
+          onSubmitFormLogin={handleSubmitFormLogin}
+        />
+        <Header
+          isVisible={!isGuest}
+          currentPage={currentPage}
+          onClickMenuItem={handleClickMenuItem}
+          onClickExit={hadleClickExit}
+        />
+        <Seek
+          isVisible={!isGuest && currentPage === 'search'}
+          clips={clips}
+          onSearchVideo={handleSearchVideo}
+          onClickHeart={handleClickHeart}
+        />
+        <Favourit
+          isVisible={!isGuest && currentPage === 'favourites'}
+          onClickQueryRun={handleRunQuery}
+          onClickQueryEdit={hadleEditQuery}
+        />
+        <Popup
+          isVisible={isVisiblePopup}
+          title={popupTitle}
+          index={queryIndex}
+          isDisabledQueryInput={isDisabledQueryInput}
+          onClosePopup={handleClosePopup}
+          onEditQueryList={handleEditQueryList}
+        />
       </QueryContext.Provider>
     </div>
   );

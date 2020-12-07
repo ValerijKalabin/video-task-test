@@ -13,12 +13,12 @@ import {
 } from 'antd';
 
 function Popup({
-    isVisible,
-    title,
-    index,
-    isDisabledQueryInput,
-    onClosePopup,
-    onEditQueryList
+  isVisible,
+  title,
+  index,
+  isDisabledQueryInput,
+  onClosePopup,
+  onEditQueryList
 }) {
   const [form] = Form.useForm();
   const [countValue, setCountValue] = React.useState(0);

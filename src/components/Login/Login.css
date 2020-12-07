@@ -1,7 +1,7 @@
 @import '~antd/dist/antd.css';
 
 .login__form {
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
   width: 510px;
@@ -11,6 +11,10 @@
   border-radius: 5px;
   padding: 40px 0 40px;
   margin: 0;
+}
+
+.login__form_visible {
+  display: flex;
 }
 
 .login__logo {

@@ -2,18 +2,16 @@ import './Login.css';
 import logo from '../../images/logo.svg';
 import { Form, Input, Button } from 'antd';
 
-function Login({ onSubmitFormLogin }) {
-
-  function onFinish(values) {
-    onSubmitFormLogin(values);
-  };
-
+function Login({
+  isVisible,
+  onSubmitFormLogin
+}) {
   return (
     <Form
       layout="vertical"
       name="login"
-      className="login__form"
-      onFinish={onFinish}
+      className={`login__form ${isVisible && 'login__form_visible'}`}
+      onFinish={onSubmitFormLogin}
     >
       <img className="login__logo" src={logo} alt="Логотип" />
       <h1 className="login__title">Вход</h1>
