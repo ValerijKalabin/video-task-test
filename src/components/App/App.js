@@ -121,7 +121,7 @@ function App() {
             <Redirect to="/" /> :
             <>
               <Header onClickExit={hadleClickExit} />
-              <Favourit onClickQueryEdit={hadleEditQuery} />
+              <Favourit onClickQueryRun={handleSearchVideo} onClickQueryEdit={hadleEditQuery} />
             </>
           }
         </Route>

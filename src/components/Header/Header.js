@@ -6,11 +6,15 @@ import { Menu } from 'antd';
 
 function Header({ onClickExit }) {
   const { path } = useRouteMatch();
-  const [clickedItem, setClickedItem] = React.useState(path.slice(1));
+  const [clickedItem, setClickedItem] = React.useState('');
 
   function hahdleClickItem(event) {
     setClickedItem(event.key);
   }
+
+  React.useEffect(() => {
+    setClickedItem(path.slice(1));
+  }, [path]);
 
   return (
     <header className="header">
