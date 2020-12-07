@@ -1,7 +1,8 @@
 import './Favourit.css';
 import {  List } from 'antd';
+import Query from '../Query/Query';
 
-function Favourit({ queries }) {
+function Favourit() {
   return (
     <main className="favourit">
       <div className="favourit__container">
@@ -10,8 +11,8 @@ function Favourit({ queries }) {
           className="favourit__list"
           size="large"
           bordered
-          dataSource={queries}
-          renderItem={item => <List.Item>{item.name}</List.Item>}
+          dataSource={localStorage.getItem('queries') ? JSON.parse(localStorage.getItem('queries')) : []}
+          renderItem={item => <List.Item><Query item={item} /></List.Item>}
         />
       </div>
     </main>

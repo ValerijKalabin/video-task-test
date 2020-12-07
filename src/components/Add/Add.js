@@ -1,41 +1,50 @@
 import './Add.css';
 import React from 'react';
-import {  Modal, Form, Input, Slider, InputNumber, Button, Row, Col  } from 'antd';
+import QueryContext from '../../contexts/QueryContext';
+import { Modal, Form, Input, Slider, InputNumber, Button, Row, Col  } from 'antd';
 
-function Add({ query, visibleModalAdd, onCloseModalAdd, addQuery }) {
-  const [nameValue, setNameValue] = React.useState('');
-  const [countValue, setCountValue] = React.useState(12);
-
-  function handleChangeName(event) {
-    setNameValue(event.target.value);
-  }
+function Add({ visibleModalAdd, title, isDisabledQueryInput, onCloseModalAdd, addQuery }) {
+  const [form] = Form.useForm();
+  const [countValue, setCountValue] = React.useState(0);
+  const { query, name, count } = React.useContext(QueryContext);
 
   function handleChangeCount(value) {
     setCountValue(value);
   }
 
-  function handleSubmit() {
+  function handleFinish({ query, name }) {
     addQuery({
       query: query,
-      name: nameValue,
+      name: name,
       count: countValue
     });
   }
 
+  React.useEffect(() => {
+    if(visibleModalAdd) {
+      form.setFieldsValue({
+        query: query,
+        name: name,
+      });
+      setCountValue(count)
+    }
+  }, [visibleModalAdd, form, query, name, count]);
+
   return (
     <Modal
       visible={visibleModalAdd}
-      title="Сохранить запрос"
+      title={title}
       onCancel={onCloseModalAdd}
       footer={[]}
     >
       <Form
+        form={form}
         layout="vertical"
         name="add"
-        onFinish={handleSubmit}
+        onFinish={handleFinish}
       >
         <Form.Item label="Запрос" name="query">
-          <Input defaultValue={query} disabled />
+          <Input disabled={isDisabledQueryInput} />
         </Form.Item>
         <Form.Item
           label="Название"
@@ -47,7 +56,7 @@ function Add({ query, visibleModalAdd, onCloseModalAdd, addQuery }) {
             },
           ]}
         >
-          <Input value={nameValue} onChange={handleChangeName} />
+          <Input />
         </Form.Item>
         <Form.Item label="Максимальное количество" name="count">
           <Row>

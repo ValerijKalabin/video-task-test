@@ -1,6 +1,7 @@
 import './App.css';
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import QueryContext from '../../contexts/QueryContext';
 import Login from '../Login/Login';
 import Header from '../Header/Header';
 import Seek from '../Seek/Seek';
@@ -10,8 +11,10 @@ import user from '../../data/user.json';
 
 function App() {
   const [isGuest, setIsGuest] = React.useState(!localStorage.getItem(user.username));
-  const [visibleModalAdd, setVisibleModalAdd] = React.useState(false)
-  const [query, setQuery] = React.useState('');
+  const [visibleModalAdd, setVisibleModalAdd] = React.useState(false);
+  const [modalTitle, setModalTitle] = React.useState('');
+  const [isDisabledQueryInput, setIsDisabledQueryInput] = React.useState(false);
+  const [query, setQuery] = React.useState({});
   const [queries, setQueries] = React.useState([]);
   const [clips, setСlips] = React.useState([]);
 
@@ -45,7 +48,7 @@ function App() {
         return Promise.reject(res);
       })
       .then((res) => {
-        setQuery(data.query);
+        setQuery(data);
         setСlips(res.items);
       })
       .catch(() => {
@@ -55,6 +58,8 @@ function App() {
 
   function handleClickHeart() {
     setVisibleModalAdd(true);
+    setModalTitle('Сохранить запрос');
+    setIsDisabledQueryInput(true);
   }
 
   function handleCloseModalAdd() {
@@ -64,10 +69,12 @@ function App() {
   function handleAddQuery(query) {
     setVisibleModalAdd(false);
     setQueries([...queries, query]);
+    localStorage.setItem('queries', JSON.stringify(queries));
   }
 
   return (
     <div className={`app ${isGuest && 'app__guest'}`}>
+      <QueryContext.Provider value={query}>
       <Switch>
         <Route exact path="/">
           {
@@ -83,15 +90,9 @@ function App() {
             <>
               <Header onClickExit={hadleClickExit} />
               <Seek
-                query={query}
                 clips={clips}
                 onSearchVideo={handleSearchVideo}
-                onClickHeart={handleClickHeart}    />
-              <Add
-                query={query}
-                visibleModalAdd={visibleModalAdd}
-                onCloseModalAdd={handleCloseModalAdd}
-                addQuery={handleAddQuery}
+                onClickHeart={handleClickHeart}
               />
             </>
           }
@@ -107,6 +108,14 @@ function App() {
           }
         </Route>
       </Switch>
+      <Add
+        visibleModalAdd={visibleModalAdd}
+        title={modalTitle}
+        isDisabledQueryInput={isDisabledQueryInput}
+        onCloseModalAdd={handleCloseModalAdd}
+        addQuery={handleAddQuery}
+      />
+      </QueryContext.Provider>
     </div>
   );
 }

@@ -3,10 +3,12 @@ import React from 'react';
 import {  Input  } from 'antd';
 import Video from '../Video/Video';
 import Heart from '../Heart/Heart';
+import QueryContext from '../../contexts/QueryContext';
 const { Search } = Input;
 
-function Seek({ query, clips, onSearchVideo, onClickHeart }) {
+function Seek({ clips, onSearchVideo, onClickHeart }) {
   const [layout, setLayout] = React.useState('grid');
+  const { query } = React.useContext(QueryContext);
 
   function handleSearch(value) {
     onSearchVideo({
