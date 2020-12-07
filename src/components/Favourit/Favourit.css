@@ -1,11 +1,15 @@
 @import '~antd/dist/antd.css';
 
 .favourit {
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   width: 100%;
   min-height: calc(100vh - 48px);
+}
+
+.favourit_visible {
+  display: flex;
 }
 
 .favourit__container {

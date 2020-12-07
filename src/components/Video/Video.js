@@ -9,8 +9,12 @@ function Video({ clip, layout }) {
         allowFullScreen
       />
       <div className={`video__info ${layout === 'list' && 'video__info_layout_list'}`}>
-        <h2 className={`video__title ${layout === 'list' && 'video__title_layout_list'}`}>{clip.snippet.title}</h2>
-        <p className={`video__subtitle ${layout === 'list' && 'video__subtitle_layout_list'}`}>{clip.snippet.description}</p>
+        <h2 className={`video__title ${layout === 'list' && 'video__title_layout_list'}`}>
+          {clip.snippet.title}
+        </h2>
+        <p className={`video__subtitle ${layout === 'list' && 'video__subtitle_layout_list'}`}>
+          {clip.snippet.description}
+        </p>
       </div>
     </div>
   );

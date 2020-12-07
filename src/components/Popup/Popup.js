@@ -1,9 +1,25 @@
 import './Popup.css';
 import React from 'react';
 import QueryContext from '../../contexts/QueryContext';
-import { Modal, Form, Input, Slider, InputNumber, Button, Row, Col  } from 'antd';
+import {
+  Modal,
+  Form,
+  Input,
+  Slider,
+  InputNumber,
+  Button,
+  Row,
+  Col
+} from 'antd';
 
-function Popup({ isVisible, title, index, isDisabledQueryInput, onClosePopup, onEditQueryList }) {
+function Popup({
+  isVisible,
+  title,
+  index,
+  isDisabledQueryInput,
+  onClosePopup,
+  onEditQueryList
+}) {
   const [form] = Form.useForm();
   const [countValue, setCountValue] = React.useState(0);
   const { query, name, count } = React.useContext(QueryContext);

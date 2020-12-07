@@ -1,8 +1,12 @@
 import './Query.css';
 import {  Button } from 'antd';
-import { Link } from 'react-router-dom';
 
-function Query({ item, index, onClickQueryRun, onClickQueryEdit }) {
+function Query({
+  item,
+  index,
+  onClickQueryRun,
+  onClickQueryEdit
+}) {
   function handleClickRun() {
     onClickQueryRun(item);
   }
@@ -16,7 +20,7 @@ function Query({ item, index, onClickQueryRun, onClickQueryEdit }) {
       <p className="query__text">{item.name}</p>
       <div>
         <Button type="link" onClick={handleClickRun}>
-          <Link to="/search">Выполнить</Link>
+          Выполнить
         </Button>
         <Button type="link" onClick={handleClickEdit}>
           Редактировать

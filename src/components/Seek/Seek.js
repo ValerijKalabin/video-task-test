@@ -6,7 +6,12 @@ import Heart from '../Heart/Heart';
 import QueryContext from '../../contexts/QueryContext';
 const { Search } = Input;
 
-function Seek({ clips, onSearchVideo, onClickHeart }) {
+function Seek({
+  isVisible,
+  clips,
+  onSearchVideo,
+  onClickHeart
+}) {
   const [layout, setLayout] = React.useState('grid');
   const { query } = React.useContext(QueryContext);
 
@@ -23,7 +28,7 @@ function Seek({ clips, onSearchVideo, onClickHeart }) {
   }
 
   return (
-    <main className={`seek ${clips.length && 'seek_video'}`}>
+    <main className={`seek ${isVisible && 'seek_visible'} ${clips.length && 'seek_video'}`}>
       <h1 className={`seek__title ${clips.length && 'seek__title_video'}`}>Поиск видео</h1>
       <div className={`seek__input ${clips.length && 'seek__input_video'}`}>
         <Search

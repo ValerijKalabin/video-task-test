@@ -1,7 +1,7 @@
 @import '~antd/dist/antd.css';
 
 .seek {
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -9,6 +9,10 @@
   min-height: calc(100vh - 48px);
   padding: 0;
   margin: 0 auto;
+}
+
+.seek_visible {
+  display: flex;
 }
 
 .seek_video {
