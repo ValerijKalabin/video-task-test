@@ -18,17 +18,8 @@ function Header({
           onClick={onClickMenuItem}
         >
           <img className="header__logo" src={logo} alt="Логотип" />
-<<<<<<< HEAD
-          <Menu.Item key="search">
-            <Link to="/search">Поиск</Link>
-          </Menu.Item>
-          <Menu.Item key="favourites">
-            <Link to="/favourites">Избранное</Link>
-          </Menu.Item>
-=======
           <Menu.Item key="search">Поиск</Menu.Item>
           <Menu.Item key="favourites">Избранное</Menu.Item>
->>>>>>> develop
         </Menu>
         <Menu
           mode="horizontal"
