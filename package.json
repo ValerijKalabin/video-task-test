@@ -1,6 +1,5 @@
 {
   "name": "video-task-test",
-  "homepage": "https://valerijkalabin.github.io/video-task-test",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
