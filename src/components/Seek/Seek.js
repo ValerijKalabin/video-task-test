@@ -1,6 +1,6 @@
 import './Seek.css';
 import React from 'react';
-import {  Input  } from 'antd';
+import { Input } from 'antd';
 import Video from '../Video/Video';
 import Heart from '../Heart/Heart';
 import QueryContext from '../../contexts/QueryContext';
@@ -9,11 +9,17 @@ const { Search } = Input;
 function Seek({
   isVisible,
   clips,
+  loading,
   onSearchVideo,
   onClickHeart
 }) {
   const [layout, setLayout] = React.useState('grid');
   const { query } = React.useContext(QueryContext);
+  const [value, setValue] = React.useState('');
+
+  function handleChange(event) {
+    setValue(event.target.value)
+  }
 
   function handleSearch(value) {
     onSearchVideo({
@@ -27,6 +33,10 @@ function Seek({
     setLayout(event.target.name);
   }
 
+  React.useEffect(() => {
+    setValue(query);
+  }, [query]);
+
   return (
     <main className={`seek ${isVisible && 'seek_visible'} ${clips.length && 'seek_video'}`}>
       <h1 className={`seek__title ${clips.length && 'seek__title_video'}`}>Поиск видео</h1>
@@ -34,9 +44,12 @@ function Seek({
         <Search
           placeholder="Что хотите посмотреть?"
           enterButton="Найти"
+          loading={loading}
           size="large"
           suffix={<Heart clipsLength={clips.length} onClickHeart={onClickHeart} />}
           onSearch={handleSearch}
+          onChange={handleChange}
+          value={value}
         />
       </div>
       <div className={`seek__info ${clips.length && 'seek__info_video'}`}>

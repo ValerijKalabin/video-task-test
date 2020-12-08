@@ -6,8 +6,7 @@ import { Menu } from 'antd';
 function Header({
   isVisible,
   currentPage,
-  onClickMenuItem,
-  onClickExit
+  onClickMenuItem
 }) {
   return (
     <header className={`header ${isVisible && 'header_visible'}`}>
@@ -24,7 +23,7 @@ function Header({
         <Menu
           mode="horizontal"
           selectedKeys={[]}
-          onClick={onClickExit}
+          onClick={onClickMenuItem}
         >
           <Menu.Item key="exit">Выйти</Menu.Item>
         </Menu>

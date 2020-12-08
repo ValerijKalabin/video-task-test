@@ -12,9 +12,8 @@ function App() {
   const [isGuest, setIsGuest] = React.useState(!localStorage.getItem(user.username));
   const [currentPage, setCurrentPage] = React.useState('search');
   const [isVisiblePopup, setVisiblePopup] = React.useState(false);
-  const [popupTitle, setPopupTitle] = React.useState('');
-  const [isDisabledQueryInput, setIsDisabledQueryInput] = React.useState(false);
-  const [queryIndex, setQueryIndex] = React.useState(0);
+  const [configPopup, setConfigPopup] = React.useState({});
+  const [loading, setLoading] = React.useState(false);
   const [query, setQuery] = React.useState({});
   const [clips, setСlips] = React.useState([]);
 
@@ -28,15 +27,16 @@ function App() {
   }
 
   function handleClickMenuItem(event) {
-    setCurrentPage(event.key);
-  }
-
-  function hadleClickExit() {
-    localStorage.removeItem(user.username);
-    setIsGuest(true);
+    if(event.key === 'exit') {
+      localStorage.removeItem(user.username);
+      setIsGuest(true);
+    } else {
+      setCurrentPage(event.key);
+    }
   }
 
   function handleSearchVideo(data) {
+    setLoading(true);
     fetch(`https://www.googleapis.com/youtube/v3/search`
       + `?part=snippet`
       + `&type=video`
@@ -57,20 +57,27 @@ function App() {
       })
       .catch(() => {
         alert('Что-то пошло не так. Повторите запрос.')
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }
 
   function handleClickHeart() {
-    setQueryIndex(-1);
-    setPopupTitle('Сохранить запрос');
-    setIsDisabledQueryInput(true);
+    setConfigPopup({
+      title: 'Сохранить запрос',
+      index: -1,
+      isDisabledQueryInput: true
+    });
     setVisiblePopup(true);
   }
 
   function hadleEditQuery(index) {
-    setQueryIndex(index);
-    setPopupTitle('Изменить запрос');
-    setIsDisabledQueryInput(false);
+    setConfigPopup({
+      title: 'Изменить запрос',
+      index: index,
+      isDisabledQueryInput: false
+    });
     setVisiblePopup(true);
   }
 
@@ -80,8 +87,8 @@ function App() {
       localStorage.setItem('queries', JSON.stringify([query]));
     } else {
       const queriesList = JSON.parse(queriesString);
-      if(index < 0) {
-        queriesList[queriesList.length] = query;
+      if(index === -1) {
+        queriesList.push(query);
       } else {
         queriesList[index] = query;
       }
@@ -110,11 +117,11 @@ function App() {
           isVisible={!isGuest}
           currentPage={currentPage}
           onClickMenuItem={handleClickMenuItem}
-          onClickExit={hadleClickExit}
         />
         <Seek
           isVisible={!isGuest && currentPage === 'search'}
           clips={clips}
+          loading={loading}
           onSearchVideo={handleSearchVideo}
           onClickHeart={handleClickHeart}
         />
@@ -125,9 +132,7 @@ function App() {
         />
         <Popup
           isVisible={isVisiblePopup}
-          title={popupTitle}
-          index={queryIndex}
-          isDisabledQueryInput={isDisabledQueryInput}
+          config = {configPopup}
           onClosePopup={handleClosePopup}
           onEditQueryList={handleEditQueryList}
         />
