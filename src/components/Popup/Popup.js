@@ -14,15 +14,14 @@ import {
 
 function Popup({
   isVisible,
-  title,
-  index,
-  isDisabledQueryInput,
+  config,
   onClosePopup,
   onEditQueryList
 }) {
   const [form] = Form.useForm();
   const [countValue, setCountValue] = React.useState(0);
   const { query, name, count } = React.useContext(QueryContext);
+  const { title, index, isDisabledQueryInput } = config;
 
   function handleChangeCount(value) {
     setCountValue(value);
